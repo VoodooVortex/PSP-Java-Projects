@@ -1,0 +1,31 @@
+Display#1 | Menu				
+	===== SE STORE =====			
+	1. Show Category			
+	2. Exit			
+	====================			
+	Select (1-2) : 
+				
+				
+Display#2 | เลือก 1. Show Category	
+    ===== SE STORE's Product Categories =====			
+	#	Category		
+	1	Fruits & Vegetables		
+	2	Dairy Products		
+	...			
+	10	Electronics		
+	=========================================			
+	Select Category to Show Product (1-10) or Q for exit
+    	Select : 
+				
+				
+Display#3 | เลือก 5. Snacks				
+	============ Snacks ============			
+	#	Name	        		Price	    Quantity
+	1	Chip	        		$0.68	    80
+	2	Chocolate	    	$1.29	    45
+	3	Candy	        	$0.99	    75
+	4	Seaweed	        	$0.70	    65
+	5	Biscuit	        	$0.34	    50
+	================================			
+	Press Q to Exit			
+	[เมื่อกด Q กลับไปแสดง Display#2]			

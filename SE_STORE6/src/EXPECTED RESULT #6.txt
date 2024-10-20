@@ -1,0 +1,78 @@
+Display#1 | หลังจาก login และเลือก 1. Show Category	
+    ===== SE STORE's Product Categories =====			
+	#	Category		
+	1	Fruits & Vegetables		
+	2	Dairy Products		
+	3	Meat & Seafood
+	...			
+	10	Electronics	
+	=========================================			
+	Select Category to Show Product (1-10) or Q for exit
+	Select : 
+				
+Display#2 | เลือก 3. Meat & Seafood			
+	======== Meat & Seafood ========			
+	#	Name	        Price (฿)		Quantity
+	1	Shrimp		340.44 (358.36)		75
+	2	Pork		288.12 (303.28)		55
+	3	Beef		466.74 (491.30)		65
+	4	Fish		253.23 (266.56)		60
+	5	Shell		348.19 (366.52)		55
+	================================			
+	1. Show Name By DESC
+	2. Show Quantity By ASC
+	or Press Q to Exit : 
+
+Display#3.1 | เลือก 1. Show Name By DESC
+	======== Meat & Seafood ========
+	#	Name			Price (฿)		Quantity	
+	1	Shrimp			340.44 (358.36)		75
+	2	Shell			348.19 (366.52)		55
+	3	Pork			288.12 (303.28)		55
+	4	Fish			253.23 (266.56)		60
+	5	Beef			466.74 (491.30)		65
+	================================
+	1. Show Name By DESC
+	2. Show Quantity By ASC
+	or Press Q to Exit : 
+
+Display#3.2 | เลือก 2. Show Quantity By ASC
+	======== Meat & Seafood ========
+	#	Name			Price (฿)		Quantity	
+	1	Pork			288.12 (303.28)		55
+	2	Shell			348.19 (366.52)		55
+	3	Fish			253.23 (266.56)		60
+	4	Beef			466.74 (491.30)		65
+	5	Shrimp			340.44 (358.36)		75
+	================================
+	1. Show Name By DESC
+	2. Show Quantity By ASC
+	or Press Q to Exit : 
+
+คำอธิบายเพิ่มเติม
+1. ส่วนลดในแต่ละ Role
+	Staff	ไม่มีส่วนลด
+	Regular	ไม่มีส่วนลด
+	Silver	ลด 5%
+	Gold	ลด 10%
+
+2. ยกตัวอย่างการลดราคา
+2.1 ถ้า login ด้วย Staff หรือ Regular จะแสดงเป็น
+	...	Name			Price (฿)	...
+		Frozen			68.00
+		Carrot			45.22
+		...
+
+2.2 ถ้า login ด้วย Silver ลด 5% จะแสดงเป็น
+	...	Name			Price (฿)	...
+		Frozen			64.60 (68.00)
+		Carrot			42.96 (45.22)
+		...
+
+2.3 ถ้า login ด้วย Gold ลด 10% จะแสดงเป็น
+	...	Name			Price (฿)	...
+		Frozen			61.20 (68.00)
+		Carrot			40.70 (45.22)
+		...
+
+รายละเอียดราคาอื่นๆ ใน Excel

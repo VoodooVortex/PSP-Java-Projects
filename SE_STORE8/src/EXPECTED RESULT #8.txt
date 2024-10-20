@@ -1,0 +1,86 @@
+Display#1 | หลังจาก login (role staff)	
+	===== SE STORE =====
+	Hello, P. Natnawat (STAFF)
+	Email: sm***@bs***
+	Phone: 062-616-6212
+	You have 21 Point
+	====================
+	1. Show Category
+	2. Add Member
+	3. Edit Member
+	4. Edit Product
+	5. Logout
+	====================
+	Select (1-5) :
+
+Display#2 | 4. Edit Product
+	=========== SE STORE's Products ===========			
+	#	Name	        Price (฿)	Quantity
+	1	Chip	        23.12	    	80
+	2	Chocolate	43.86	    	45
+	3	Candy	        33.66	    	75
+	4	Seaweed     	23.80	    	65
+	...			
+	n	Rubber	        10.88	    	65
+	===========================================							
+	Type Product Number, You want to edit or Press Q to Exit	
+	Select (1-n) : 
+
+Display#3 | เลือก 1	Chip
+	==== Edit info of Chip ====
+	Type new info or Hyphen (-) for none edit.
+	Name : 
+	Quantity (+ or -) : 
+
+Display#3.1 | กรณีกรอกข้อมูลถูกต้อง และกรอกด้วย $
+	==== Edit info of Chip ====
+	Type new info or Hyphen (-) for none edit.
+	Name : -
+	Quantity (+ or -) : +10
+	Success - Chip has been updated!
+	[กลับไป Display#1]
+
+Display#3.2 | กรณีกรอกข้อมูลถูกต้อง และกรอกด้วย ฿
+	==== Edit info of Chip ====
+	Type new info or Hyphen (-) for none edit.
+	Name : -
+	Quantity (+ or -) : -10
+	Success - Chip has been updated!
+	[กลับไป Display#1]
+
+Display#3.3 | กรณีกรอกข้อมูลไม่ถูกต้อง
+	==== Edit info of Chip ====
+	Type new info or Hyphen (-) for none edit.
+	Name : -
+	Quantity (+ or -) : 10
+	Error! - Your Information are Incorrect!
+	[กลับไป Display#1]
+
+Display#3.4 | กรณีกรอกข้อมูลไม่ถูกต้อง
+	==== Edit info of Chip ====
+	Type new info or Hyphen (-) for none edit.
+	Name : -
+	Quantity (+ or -) : +10.1
+	Error! - Your Information are Incorrect!
+	[กลับไป Display#1]
+
+
+คำอธิบายเพิ่มเติม
+1. การเปลี่ยนชื่อของสินค้า
+	1.1 กรอกข้อมูล แล้วนำไปแก้ไขลงในไฟล์
+
+	1.2 หากกรอกเป็น - (Hyphen) ไม่ต้องทำการแก้ไขข้อมูล
+
+2. การปรับจำนวนสินค้า
+	2.1 หากกรอกมาเป็น + (ตาม Display#3.1)
+		Chip มีอยู่แล้ว 80 หน่วย
+		หากกรอกมาเป็น +10
+		ให้เพิ่มจำนวนเข้าไปอีก 10 หน่วย เก็บข้อมูลในไฟล์เป็น 90
+
+	2.2 หากกรอกมาเป็น - (ตาม Display#3.2)
+		Chip มีอยู่แล้ว 80 หน่วย
+		หากกรอกมาเป็น -10
+		ให้ลดจำนวนออก 10 หน่วย เก็บข้อมูลในไฟล์เป็น 70
+
+	2.3 หากกรอกเป็น - (Hyphen) ไม่ต้องทำการแก้ไขข้อมูล
+		

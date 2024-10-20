@@ -1,0 +1,43 @@
+Display#1 | หลังจาก login (role staff)	
+	===== SE STORE =====
+	Hello, P. Natnawat (STAFF)
+	Email: sm***@bs***
+	Phone: 062-616-6212
+	You have 21 Point
+	====================
+	1. Show Category
+	2. Add Member
+	3. Edit Member
+	4. Logout
+	====================
+	Select (1-4) :
+
+Display#2 | 3. Edit Member
+	===== SE STORE's Member =====					
+	#	Name			Email			
+	1	John Doe		johndoe@outlook.com
+	2	Jane Smith		janesmith@gmail.com
+	3	Michael Johnson		michaeljohnson@gmail.com
+	...
+	n	Piyawat Wongyard	bombies@bsospace.com
+	================================					
+	Type Member Number, You want to edit or Press Q to Exit	
+	Select (1-n) : 
+
+Display#3 | เลือก 1	John Doe
+	==== Edit info of John Doe ====
+	Type new info or Hyphen (-) for none edit.
+	Firstname : 
+	Lastname : 
+	Email : 
+	Phone : 
+
+Display#3.1 | กรณีกรอกข้อมูลถูกต้อง
+	==== Edit info of John Doe ====
+	Type new info or Hyphen (-) for none edit.
+	Firstname : Joey
+	Lastname : -
+	Email : joeydoe@outlook.com
+	Phone : -
+	Success - Member has been updated!
+	[กลับไป Display#1]

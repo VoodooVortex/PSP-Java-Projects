@@ -1,0 +1,35 @@
+Display#1 | Menu				
+	===== SE STORE =====			
+	1. Show Product			
+	2. Exit			
+	====================			
+	Select (1-2) :			
+				
+Display#2 | เลือก 1. Show Product				
+	=========== SE STORE's Products ===========			
+	#	Name	        Price	    Quantity
+	1	Chip	        $0.68	    80
+	2	Chocolate	    $1.29	    45
+	3	Candy	        $0.99	    75
+	4	Seaweed     	$0.70	    65
+	...			
+	50	Rubber	        $0.32	    65
+	===========================================			
+	===== SE STORE =====			
+	1. Show Product			
+	2. Exit			
+	====================			
+	Select (1-2) :			
+				
+Display#3 | เลือก 2. Exit				
+	===== SE STORE =====			
+	Thank you for using our service :3	
+
+
+** คำอธิบายเพิ่มเติม
+ไฟล์
+1. PRODUCT.txt ประกอบไปด้วย
+    1. ID = รหัสของสินค้า
+    2. Name = ชื่อของสินค้า
+    3. Price = ราคาของสินค้า (ดอลลาร์สหรัฐ)
+    4. Quantity = จำนวนของสินค้า

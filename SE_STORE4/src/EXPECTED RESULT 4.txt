@@ -1,0 +1,108 @@
+Display#1 | Menu				5 point
+	===== SE STORE =====					
+	1. Login				
+	2. Exit			
+	====================					
+	Select (1-2) :
+
+
+Display#2 | เลือก 1. Login			5 point
+	===== LOGIN =====
+	Email : [กรอก email]
+	Password : [กรอกรหัสผ่าน]
+	
+	
+Display#3.1 | กรอกข้อมูลถูกต้อง (บัญชีไม่หมดอายุ)		
+	===== SE STORE =====
+	Hello, N. Jessada			show เฉยๆ 5 point	เซ็นเซอร์ +10 point
+	Email: oh***@wi***			show เฉยๆ 5 point	เซ็นเซอร์เพียงด้านหน้า/หลังตัว @ +5 point	เซ็นเซอร์ได้ตามตัวอย่าง +5 point
+	Phone: 099-888-7654			show เฉยๆ 5 point	เติม - +5 point
+	You have 6 Point			5 point
+	====================
+	1. Show Category
+	2. Logout
+	====================
+	Select (1-2) :
+	[เมื่อพิมพ์ 1 แสดงเหมือนสัปดาห์ก่อน]		การทำงานปกติ 5 point
+	[เมื่อพิมพ์ 2 กลับไป Display#1]
+
+Display#3.2 | กรอกข้อมูลถูกต้อง (บัญชีหมดอายุ)		ตรวจสอบได้ 15 point
+	===== LOGIN =====
+	Email : johndoe@outlook.com
+	Password : 665331
+	====================
+	Error! - Your Account are Expired! 
+	[กลับไป Display#1]
+	
+
+Display#4.1 | หาก Email หรือ Password ผิด		ตรวจสอบได้ 10 point
+	===== LOGIN =====
+	Email : ohmjess@withyamroll.com
+	Password : asdfas
+	====================
+	Error! - Email or Password is Incorrect (1)
+	[**ห้ามกรอกผิดเกิน 3 ครั้ง]	
+	
+
+Display#4.2 | หากกรอกผิดเกิน 3 ครั้ง			ตรวจสอบได้ +15 point
+	...
+	Error! - Email or Password is Incorrect (2)
+	===== LOGIN =====
+	Email : ohmje@withyamroll.co
+	Password : 555656
+	====================
+	Error! - Email or Password is Incorrect (3)
+	Sorry, Please try again later :(
+	[กลับไป Display#1]
+
+
+คำอธิบายเพิ่มเติม
+1. ข้อมูลภายในไฟล์ Member.txt ประกอบไปด้วย
+	1. ID = รหัสบัญชี
+	2. Firstname = ชื่อ
+	3. Lastname = นามสกุล
+	4. Email = อีเมล
+	5. Password = รหัสผ่านที่เข้ารหัส
+	6. Phone = เบอร์ติดต่อ
+	7. Point = แต้มสมาชิก
+2. ข้อมูลภายใน Password
+	INDEX 2		= สถานะบัญชี
+	0 = NON ACTIVE
+	1 = ACTIVE
+
+	INDEX 9		= รหัสตัวที่ 1
+	INDEX 10	= รหัสตัวที่ 2
+	INDEX 13	= รหัสตัวที่ 3
+	INDEX 14	= รหัสตัวที่ 4
+	INDEX 15	= รหัสตัวที่ 5
+	INDEX 16	= รหัสตัวที่ 6
+	** ดูข้อมูลเพิ่มเติมในไฟล์ Excel
+
+
+คะแนนรวม 100 คะแนน
+	1. แสดง Display#1 	(5 คะแนน)
+
+	2. แสดง Display#2	(5 คะแนน)
+
+	3. Display#3.1 เซ็นเซอร์ ข้อมูลนามสกุล		(รวม 15 คะแนน)
+	3.1 Hello, Naka Jessada				(5 คะแนน)
+	3.2 Hello, N. Jessada				(+10 คะแนน)
+
+	4. Display#3.1 เซ็นเซอร์ ข้อมูลอีเมล			(รวม 15 คะแนน)
+	4.1 Email: ohmjess@withyamroll.com		(5 คะแนน)
+	4.2 Email: ohmjess@wi*** หรือ Email: oh***@withyamroll.com		(+5 คะแนน)
+	4.3 Email: oh***@wi*** 				(+5 คะแนน)
+
+	5. Display#3.1 ข้อมูลเบอร์โทร			(รวม 10 คะแนน)
+	5.1 Phone: 0998887654				(5 คะแนน)
+	5.2 Phone: 099-888-7654				(+5 คะแนน)
+
+	6. Display#3.1 แสดงแต้มสมาชิก			(5 คะแนน)
+
+	7. Display#3.1 งานจากสัปดาห์ก่อนทำงานได้ปกติ		(5 คะแนน)
+
+	8. Display#3.2 ตรวจสอบบัญชีหมดอายุได้		(15 คะแนน)
+
+	9. Display#4.1 ตรวสสอบอีเมลหรือรหัสผ่านผิดได้		(10 คะแนน)
+
+	10. Display#4.2 วนกรอกข้อมูลอีเมลและรหัสผ่านได้ 3 ครั้ง	(15 คะแนน)
