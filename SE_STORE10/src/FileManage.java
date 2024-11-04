@@ -2,12 +2,16 @@ import java.io.*;
 import java.util.*;
 
 public class FileManage {
-    //แก้ตรงไฟล์ product
+
+    Role discounts;
+
+    Member membersLogin = new Member();
+
     Map<String, String> category = new HashMap<>();
     List<Product> productList = new ArrayList<>();
-    Member membersLogin = new Member();
     List<Member> memberList = new ArrayList<>();
     List<Cart> cartList = new ArrayList<>();
+
     int memberNumber;
     int productNumber;
     int orderProductNumber;
@@ -21,6 +25,38 @@ public class FileManage {
         BufferedWriter writeFile = new BufferedWriter(new FileWriter(file, true));
         writeFile.write(newLine);
         writeFile.close();
+    }
+
+    public enum Role{
+        STAFF(0), REGULAR(0), SILVER(0.05), GOLD(0.10);
+        private final double discount;
+        Role(double discount){
+            this.discount = discount;
+        }
+
+        public double getDiscount() {return discount;}
+    }
+
+    public void updateProduct(File file) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        for (Product i : productList){
+            writer.write(i.getAmount() + "\t" + i.getName() + "\t" + i.getPrice() + "\t" + i.getQuantity() + "\t" + i.getId());
+            writer.newLine();
+        }
+        writer.close();
+    }
+
+    public void updateCart(File file) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        if (cartList.isEmpty()){
+            writer.write("");
+        }else {
+            for (Cart i : cartList) {
+                writer.write(i.getMemberID() + "\t" + i.getProductID() + "\t" + i.getQuantity());
+                writer.newLine();
+            }
+        }
+        writer.close();
     }
 
     public void loadProduct(File file) throws FileNotFoundException {
@@ -66,11 +102,11 @@ public class FileManage {
         }
     }
 
-    //Method แสดงรายการสินค้าทั้งหมด | รับไฟล์
     public void showCategory(File file) throws IOException {
         BufferedReader readFile = new BufferedReader(new FileReader(file));
 
         int count = 1;
+
         String line;
         while ((line = readFile.readLine()) != null){
             String[] data = line.split("\\t");
@@ -87,13 +123,11 @@ public class FileManage {
         readFile.close();
     }
 
-    //Method แสดงรายการสินค้าที่เราเลือก | รับไฟล์, รับตัวเลือกที่เลือก
     public void showProductSelect(File file, String selectType) throws FileNotFoundException {
         Scanner readFile = new Scanner(file);
-        //ตัวแปรไว้นับจำนวนรายการที่แสดง
+
         int countProduct = 1;
 
-        //ลูปเอาไว้เช็คข้อมูลของ Product บรรทัดไหนบ้างที่ตรงกับ Category ที่เลือก
         if (productList.isEmpty()) {
             while (readFile.hasNext()) {
                 Product product = new Product();
@@ -150,7 +184,6 @@ public class FileManage {
     }
 
     public void showOrderProduct() {
-        //ตัวแปรไว้นับจำนวนรายการที่แสดง
         int countProduct = 1;
 
         double discount = 0;
@@ -281,7 +314,6 @@ public class FileManage {
         System.out.println("Success - Member has been updated!");
     }
 
-    //Method เอาไว้เช็คว่า Email กับ Password ถูกมั้ย
     public boolean checkExpired() {
         return membersLogin.passCode.charAt(2) == '1';
     }
@@ -325,7 +357,6 @@ public class FileManage {
         return String.valueOf(passWord);
     }
 
-    //Method เอาไว้เช็คว่า Email กับ Password ถูกมั้ย | รับไฟล์, email, password
     public boolean checkCorrect(File file, String Email, String Password) throws FileNotFoundException {
         Scanner readFile = new Scanner(file);
 
@@ -341,14 +372,14 @@ public class FileManage {
             member.setPoint(readFile.next().trim());
 
             StringBuilder pass = new StringBuilder();
-            pass.append(member.getPassCode().charAt(9));//เพื่อค่า passCode ตำแหน่งที่ 9 .append ฟีลเหมือน pass += passCode.charAt(9)
+            pass.append(member.getPassCode().charAt(9));
             pass.append(member.getPassCode().charAt(10));
             pass.append(member.getPassCode().charAt(13));
             pass.append(member.getPassCode().charAt(14));
             pass.append(member.getPassCode().charAt(15));
             pass.append(member.getPassCode().charAt(16));
 
-            if (Password.equals(String.valueOf(pass)) && Email.equals(member.getEmail())){//เช็คว่า email กับ password ตรงกับ ข้อมูลในไฟล์ มั้ย
+            if (Password.equals(String.valueOf(pass)) && Email.equals(member.getEmail())){
                 membersLogin = member;
                 readFile.reset();
                 return true;
@@ -357,9 +388,7 @@ public class FileManage {
         return false;
     }
 
-    //Method เอาไว้แสดงข้อมูล member
     public void showDataUser() {
-        //ตัวแปรเอาไว้เก็บข้อมูลที่ดัดแปลงแล้ว เพื่อเอาไปแสดง | **สังเกตุความแตกต่างที่พิมพ์ใหญ่ตัวแรก**
         String FirstName = "";
         StringBuilder FullName = new StringBuilder("Hello, ");
         StringBuilder Email = new StringBuilder();
@@ -368,37 +397,37 @@ public class FileManage {
 
         String role = "";
 
-        //ชื่อ
-        FirstName += membersLogin.getLastName().charAt(0);//เอานามสกุลตัวแรก
-        FirstName += ".";//เพิ่มจุด
+        FirstName += membersLogin.getLastName().charAt(0);
+        FirstName += ".";
 
         if (membersLogin.getPassCode().charAt(6) == '0') {
+            discounts = Role.STAFF;
             role = "STAFF";
         }
         if (membersLogin.getPassCode().charAt(6) == '1') {
+            discounts = Role.REGULAR;
             role = "REGULAR";
         }
         if (membersLogin.getPassCode().charAt(6) == '2') {
+            discounts = Role.SILVER;
             role = "SILVER";
         }
         if (membersLogin.getPassCode().charAt(6) == '3') {
+            discounts = Role.GOLD;
             role = "GOLD";
         }
 
-        FullName.append(FirstName).append(" ").append(membersLogin.getFirstName()).append(" (").append(role).append(")");//เอาชื่อมารวมกัน
+        FullName.append(FirstName).append(" ").append(membersLogin.getFirstName()).append(" (").append(role).append(")");
 
-        //email
-        Email.append(membersLogin.getEmail());//เอา email ในไฟล์ไปใส่ในตัวแปรชนิด StringBuilder เพื่อง่ายต่อการดัดแปลง
-        Email.replace(2, membersLogin.getEmail().indexOf("@"), "***");//แทนที่ ตัวแหน่งที่ 2 ถึง ตำแหน่งที่ @ อยู่ ด้วย ***
-        Email.replace(Email.indexOf("@") + 3, Email.length(), "***");//แทนที่ ตำแหน่งที่ @ อยู่ ถัดไป 3 ตัว ถึง ตำแหน่งสุดท้าย ด้วย ***
+        Email.append(membersLogin.getEmail());
+        Email.replace(2, membersLogin.getEmail().indexOf("@"), "***");
+        Email.replace(Email.indexOf("@") + 3, Email.length(), "***");
 
-        //เบอร์
         Phone.append(membersLogin.getPhoneNum());
-        Phone.insert(3, "-");//แทรก (เพิ่ม) - ในตำแหน่งที่ 3
-        Phone.insert(7, "-");//แทรก (เพิ่ม) - ในตำแหน่งที่ 7
+        Phone.insert(3, "-");
+        Phone.insert(7, "-");
 
-        //point
-        Point.append(membersLogin.getPoint(), 0, membersLogin.getPoint().indexOf("."));//เอาตั้งแต่ตำแหน่งที่ 0 ไปจนถึงตำแหน่งก่อน ตำแหน่ง .
+        Point.append(membersLogin.getPoint(), 0, membersLogin.getPoint().indexOf("."));
 
         System.out.println("===== SE STORE =====");
         System.out.println(FullName);
@@ -478,17 +507,71 @@ public class FileManage {
 
     public void sortASC(){
         Product temp;
-        int max;
+        int min;
         for (int i = 0; i < productList.size()-1; i++) {
-            max = i;
+            min = i;
             temp = productList.get(i);
             for (int j = i+1; j < productList.size(); j++) {
-                if (Integer.parseInt(productList.get(max).getQuantity()) > Integer.parseInt(productList.get(j).getQuantity())){
-                    max = j;
+                if (Integer.parseInt(productList.get(min).getQuantity()) > Integer.parseInt(productList.get(j).getQuantity())){
+                    min = j;
                 }
             }
-            productList.set(i, productList.get(max));
-            productList.set(max, temp);
+            productList.set(i, productList.get(min));
+            productList.set(min, temp);
         }
     }
+
+    public double getFullPriceProduct(String price, String quantity){
+        return (Double.parseDouble(price) * 34) * Double.parseDouble(quantity);
+    }
+
+    public double getDiscountPriceProduct(String price, String quantity){
+        double discount;
+        double priceDiscount;
+        if (discounts.getDiscount() != 0){
+            discount = Double.parseDouble(price) * discounts.getDiscount();
+            priceDiscount = Double.parseDouble(price) - discount;
+        }else {
+            priceDiscount = Double.parseDouble(price) * 34;
+        }
+        return priceDiscount * Double.parseDouble(quantity);
+    }
+
+
+
+
+//    public boolean checkEmptyCart(){
+//        if (cartList.isEmpty()) return true;
+//
+//        for (Cart i : cartList){
+//            if (i.getMemberID().equals(membersLogin.getId())){
+//                return false;
+//            }
+//        }
+//
+//        return true;
+//    }
+//
+//    public void checkBill(){
+//        int idProduct;
+//        List<Cart> removeCart = new ArrayList<>();
+//
+//        for (int i = 0; i < cartList.size(); i++) {
+//            idProduct = Integer.parseInt(cartList.get(i).getProductID()) - 1001;
+//
+//            if (membersLogin.getId().equals(cartList.get(i).getMemberID())){
+//                int remain = Integer.parseInt(productList.get(idProduct).getQuantity()) - Integer.parseInt(cartList.get(i).getQuantity());
+//                if (remain < 0) {
+//                    System.out.println("Product not enough");
+//                    return;
+//                }
+//                productList.get(idProduct).setQuantity(String.valueOf(remain));
+//                removeCart.add(cartList.get(i));
+//            }
+//        }
+//        System.out.println("Check Bill Success!!");
+//        cartList.removeAll(removeCart);
+//    }
+
+
 }
