@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class FileManage {
-
+    File orderData = new File("D:\\66160080\\SE_STORE10\\src\\ORDER.txt");
     Role discounts;
 
     Member membersLogin = new Member();
@@ -11,6 +11,8 @@ public class FileManage {
     List<Product> productList = new ArrayList<>();
     List<Member> memberList = new ArrayList<>();
     List<Cart> cartList = new ArrayList<>();
+    List<Order> orderList = new ArrayList<>();
+
 
     int memberNumber;
     int productNumber;
@@ -59,6 +61,19 @@ public class FileManage {
         writer.close();
     }
 
+    public void updateOrder() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(orderData));
+        if (orderList.isEmpty()){
+            writer.write("");
+        }else {
+            for (Order i : orderList) {
+                writer.write(i.getOrderID() + "\t" + i.getCustomerID() + "\t" + i.getProductID() + "\t" + i.getQuantity() + "\t" + i.getPriceOnOrder());
+                writer.newLine();
+            }
+        }
+        writer.close();
+    }
+
     public void loadProduct(File file) throws FileNotFoundException {
         Scanner readFile = new Scanner(file);
         productList.clear();
@@ -70,6 +85,21 @@ public class FileManage {
             product.setQuantity(readFile.next().trim());
             product.setId(readFile.next().trim());
             productList.add(product);
+        }
+    }
+
+    public void loadOrder() throws FileNotFoundException {
+        Scanner readFile = new Scanner(orderData);
+        if (orderList.isEmpty()) {
+            while (readFile.hasNext()) {
+                Order o = new Order();
+                o.setOrderID(readFile.next().trim());
+                o.setCustomerID(readFile.next().trim());
+                o.setProductID(readFile.next().trim());
+                o.setQuantity(readFile.next().trim());
+                o.setPriceOnOrder(readFile.next().trim());
+                orderList.add(o);
+            }
         }
     }
 
@@ -100,6 +130,129 @@ public class FileManage {
                 cartList.add(c);
             }
         }
+    }
+
+    public void searchProduct(String name){
+        System.out.println("====================");
+        boolean checkPrintTitle = false;
+        boolean checkFound = false;
+        int numProduct = 0;
+        for (int i = 0; i < productList.size(); i++) {
+            String nameProduct = productList.get(i).getName().toLowerCase();
+            if (nameProduct.contains(name)){
+                if (!checkPrintTitle) {
+                    System.out.printf("%-5s %-15s %-12s %6s \n", "#", "Name", "Price (฿)", "Quantity");
+                    checkPrintTitle = true;
+                }
+                checkFound = true;
+                numProduct++;
+                double priceTHB = Double.parseDouble(productList.get(i).getPrice().substring(1)) * 34;
+                System.out.printf("%-5s %-15s %-10.2f %6s \n", numProduct, productList.get(i).getName(), priceTHB, productList.get(i).getQuantity());
+            }
+        }
+
+        if (!checkFound){
+            System.out.println("Sorry Product Not found");
+        }
+
+        System.out.println("====================");
+    }
+
+    public void showCart() {
+        int numCart = 0;
+        double totalPrice = 0;
+        boolean checkEmptyCart = false;
+        System.out.printf("%-5s %-10s %-11s %6s \n", "#", "Name", "Quantity", "Totals (฿)");
+        for (int i = 0; i < cartList.size(); i++) {
+            if (cartList.get(i).getMemberID().equalsIgnoreCase(membersLogin.getId())){
+                checkEmptyCart = true;
+                numCart++;
+                int indexProduct = Integer.parseInt(cartList.get(i).getProductID()) - 1001;
+                double price = getFullPriceProduct(productList.get(i).getPrice().substring(1), cartList.get(i).getQuantity());
+                totalPrice += price;
+                System.out.printf("%-5s %-12s %-10s %6.2f \n", numCart, productList.get(indexProduct).getName(), cartList.get(i).getQuantity(), price);
+            }
+        }
+        if (!checkEmptyCart){
+            System.out.println("===========================================");
+            System.out.println("Sorry, Your cart is empty");
+            System.out.println("===========================================");
+        }else {
+            System.out.println("===========================================");
+            System.out.printf("%-5s %-5.2f %s \n",   "Price: " , totalPrice , " Baht");
+            System.out.println("===========================================");
+        }
+    }
+
+    public void showCheckOut() {
+        int numCart = 0;
+        double totalPrice = 0;
+        boolean checkEmptyCart = false;
+        System.out.printf("%-5s %-10s %-11s %6s \n", "#", "Name", "Quantity", "Totals (฿)");
+        for (int i = 0; i < cartList.size(); i++) {
+            if (cartList.get(i).getMemberID().equalsIgnoreCase(membersLogin.getId())){
+                checkEmptyCart = true;
+                numCart++;
+                int indexProduct = Integer.parseInt(cartList.get(i).getProductID()) - 1001;
+                double price = getFullPriceProduct(productList.get(i).getPrice().substring(1), cartList.get(i).getQuantity());
+                totalPrice += price;
+                System.out.printf("%-5s %-12s %-10s %6.2f \n", numCart, productList.get(indexProduct).getName(), cartList.get(i).getQuantity(), price);
+            }
+        }
+
+        if (!checkEmptyCart){
+            System.out.println("===========================================");
+            System.out.println("Sorry, Your cart is empty");
+            System.out.println("===========================================");
+        }else {
+            double shippingFee = 50.00;
+            double finalTotalPrice = totalPrice + shippingFee;
+            System.out.println("===========================================");
+            System.out.printf("%-2s %-5.2f \n",   "Price: " , totalPrice);
+            System.out.printf("%-2s %-5.2f \n",   "Shipping Fee: " , shippingFee);
+            System.out.printf("%-2s %-5.2f \n",   "Total: " , finalTotalPrice);
+            System.out.println("===========================================");
+        }
+    }
+
+    public void checkBill(File cartData, File productData) throws IOException {
+        loadOrder();
+
+        ArrayList<Cart> toBeRemove = new ArrayList<>();
+
+        String orderID;
+
+        if (orderList.isEmpty()){
+            orderID = "8001";
+        }else {
+            orderID = String.valueOf(Integer.parseInt(orderList.get(orderList.size()-1).getOrderID()) + 1);
+        }
+
+        for (int i = 0; i < cartList.size(); i++) {
+            if (cartList.get(i).getMemberID().equalsIgnoreCase(membersLogin.getId())){
+                Order order = new Order();
+                int indexProduct = Integer.parseInt(cartList.get(i).getProductID()) - 1001;
+
+                int left =  Integer.parseInt(productList.get(indexProduct).getQuantity()) - Integer.parseInt(cartList.get(i).getQuantity());
+
+                productList.get(indexProduct).setQuantity(String.valueOf(left));
+
+                order.setOrderID(orderID);
+                order.setCustomerID(cartList.get(i).getMemberID());
+                order.setProductID(cartList.get(i).getProductID());
+                order.setQuantity(cartList.get(i).getQuantity());
+                order.setPriceOnOrder(productList.get(indexProduct).getPrice());
+                orderList.add(order);
+                toBeRemove.add(cartList.get(i));
+            }
+        }
+
+        cartList.removeAll(toBeRemove);
+
+        updateOrder();
+        updateCart(cartData);
+        updateProduct(productData);
+        System.out.println("Thank you for your purchase");
     }
 
     public void showCategory(File file) throws IOException {

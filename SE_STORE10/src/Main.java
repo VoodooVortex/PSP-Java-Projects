@@ -24,10 +24,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner kb = new Scanner(System.in);
 
-        File productData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE9/src/Product data.txt");
-        File categoryData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE9/src/Category data.txt");
-        File memberData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE9/src/Member data.txt");
-        File cartData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE9/src/CART.txt");
+        File productData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE10/src/Product data.txt");
+        File categoryData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE10/src/Category data.txt");
+        File memberData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE10/src/Member data.txt");
+        File cartData = new File("/Users/pk/Desktop/Year 2/Term 1/PSP/SE_STORE10/src/CART.txt");
 
         String inputLogin;
 
@@ -180,9 +180,10 @@ public class Main {
                                         System.out.println("====================");
                                         System.out.println("1. Show Category");
                                         System.out.println("2. Order Product");
-                                        System.out.println("3. Logout");
+                                        System.out.println("3. Search Product");
+                                        System.out.println("4. Logout");
                                         System.out.println("====================");
-                                        System.out.print("Select (1-3) : ");
+                                        System.out.print("Select (1-4) : ");
                                         inputSelect = kb.nextLine();
                                         switch (inputSelect){
                                             case "1":
@@ -231,9 +232,10 @@ public class Main {
                                                 System.out.println("Enter the product number followed by the quantity.");
                                                 System.out.println("1. How to Order");
                                                 System.out.println("2. List Products");
+                                                System.out.println("3. My Cart");
                                                 System.out.println("Q. Exit");
                                                 String order;
-
+                                                boolean checkSaveCart = false;
                                                 do {
                                                     System.out.print("Enter : ");
                                                     order = kb.nextLine();
@@ -245,6 +247,50 @@ public class Main {
                                                         }else if (order.equalsIgnoreCase("2")){
                                                             fileManage.loadProduct(productData);
                                                             fileManage.showOrderProduct();
+                                                        }else if (order.equalsIgnoreCase("3")){
+                                                            System.out.println("====================");
+                                                            System.out.println("My Cart");
+                                                            System.out.println("====================");
+                                                            fileManage.loadCart(cartData);
+                                                            fileManage.showCart();
+                                                            System.out.println("1. Checkout");
+                                                            System.out.println("2. Back");
+                                                            String selectBill;
+                                                            do {
+                                                                System.out.print("Enter : ");
+                                                                selectBill = kb.nextLine();
+                                                                if (selectBill.equalsIgnoreCase("1")){
+                                                                    System.out.println("====================");
+                                                                    System.out.println("Checkout");
+                                                                    System.out.println("====================");
+                                                                    fileManage.showCheckOut();
+                                                                    System.out.println("1. Confirm");
+                                                                    System.out.println("2. Cancel");
+                                                                    String selectConfirm;
+                                                                    do {
+                                                                        System.out.print("Enter : ");
+                                                                        selectConfirm = kb.nextLine();
+                                                                        if (selectConfirm.equalsIgnoreCase("1")){
+                                                                            fileManage.checkBill(cartData, productData);
+                                                                            selectBill = "2";
+                                                                            order = "q";
+                                                                            checkSaveCart = true;
+                                                                            break;
+                                                                        }else if (selectConfirm.equalsIgnoreCase("2")){
+                                                                            System.out.println("====================");
+                                                                            System.out.println("Add Something to Cart");
+                                                                            System.out.println("====================");
+                                                                            selectBill = "2";
+                                                                        }
+                                                                    }while (!selectConfirm.equalsIgnoreCase("2"));
+
+                                                                }else if (selectBill.equalsIgnoreCase("2")){
+                                                                    System.out.println("====================");
+                                                                    System.out.println("Add Something to Cart");
+                                                                    System.out.println("====================");
+                                                                }
+                                                            }while (!selectBill.equalsIgnoreCase("2"));
+
                                                         }else if (!order.equalsIgnoreCase("q")){
                                                             System.out.println("input is invalid!");
                                                         }
@@ -258,16 +304,27 @@ public class Main {
                                                     }else {
                                                         System.out.println("input is invalid!");
                                                     }
-                                                }while (!order.equalsIgnoreCase("q"));
-                                                fileManage.editCart(cartData);
+                                                } while (!order.equalsIgnoreCase("q"));
+                                                if (!checkSaveCart){
+                                                    fileManage.editCart(cartData);
+                                                }
                                                 break;
                                             case "3":
+                                                fileManage.loadProduct(productData);
+                                                System.out.println("====================");
+                                                System.out.println("Search Product");
+                                                System.out.println("====================");
+                                                System.out.print("Type Product Name: ");
+                                                String searchName = kb.nextLine();
+                                                fileManage.searchProduct(searchName);
+                                                break;
+                                            case "4":
                                                 System.out.println("===== SE STORE =====");
                                                 System.out.println("Thank you for using our service :3");
                                                 break;
                                         }
 
-                                    }while (!inputSelect.equals("3"));
+                                    }while (!inputSelect.equals("4"));
                                 }
                             }else {
                                 System.out.println("===== LOGIN =====");
@@ -287,7 +344,7 @@ public class Main {
                             System.out.println("Error! - Email or Password is Incorrect (" + countError + ")");
                         }
 
-                    }while (countError != 3 && !inputSelect.equals("3") && !inputSelectStaff.equals("5"));
+                    }while (countError != 3 && !inputSelect.equals("4") && !inputSelectStaff.equals("5"));
 
                     if (countError == 3){
                         System.out.println("Sorry, Please try again later :(");
